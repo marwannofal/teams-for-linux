@@ -29,6 +29,8 @@
     "cross-distro:smoke": "cd tests/cross-distro && ./scripts/smoke-check.sh",
     "prestart": "npm ci",
     "start": "electron ./app --trace-warnings",
+    "start:outlook": "electron ./app --trace-warnings --outlook.enabled",
+    "start:outlook:dev": "electron ./app --trace-warnings --outlook.enabled --no-sandbox",
     "start:dev": "electron ./app --trace-warnings --no-sandbox",
     "generate-release-info": "node scripts/generateReleaseInfo.js",
     "generate-ipc-docs": "node scripts/generateIpcDocs.js",
@@ -49,7 +51,8 @@
     "dist:windows": "electron-builder --windows --x64",
     "dist:linux:x64": "electron-builder --x64 -l tar.gz deb rpm AppImage",
     "dist:linux:arm64": "electron-builder --arm64 -l tar.gz deb rpm AppImage",
-    "release": "electron-builder"
+    "release": "electron-builder",
+    "dist:outlook:flatpak": "bash scripts/build-outlook-flatpak.sh"
   },
   "dependencies": {
     "@homebridge/dbus-native": "0.7.9",

@@ -32,6 +32,7 @@ const QuickChatManager = require("./quickChat");
 const ScreenSharingService = require("./screenSharing/service");
 const PartitionsManager = require("./partitions/manager");
 const ProfilesManager = require("./profilesManager");
+const { OutlookTabs, isOutlookUrl } = require("./outlook");
 const ProfileViewManager = require("./mainAppWindow/profileViewManager");
 const { PIP_FRAME_NAME } = require("./mainAppWindow/documentPictureInPicture");
 const { PROTOCOL_SCHEMES } = require("./mainAppWindow/protocolLink");
@@ -840,6 +841,29 @@ async function handleAppReady() {
         console.warn(
           "[ProfileViewManager] main window unavailable after onAppReady; multi-account features disabled for this session"
         );
+      }
+    }
+
+    if (config.outlook?.enabled) {
+      if (isOutlookUrl(config.outlook.url)) {
+        const mainWindow = mainAppWindow.getWindow();
+        const tabs = new OutlookTabs(mainWindow, config, () =>
+          profileViewManager?.getActiveWebContents() ?? mainWindow.webContents
+        );
+        tabs.initialize();
+        mainAppWindow.setOutlookTabs(tabs);
+        const showTeams = () => tabs.select("teams");
+        const raiseTabs = () => tabs.raise();
+        profilesManager.on("switch", showTeams);
+        profilesManager.on("add", raiseTabs);
+        profilesManager.on("remove", raiseTabs);
+        mainWindow.once("closed", () => {
+          profilesManager.off("switch", showTeams);
+          profilesManager.off("add", raiseTabs);
+          profilesManager.off("remove", raiseTabs);
+        });
+      } else {
+        console.warn("[OUTLOOK] Disabled: outlook.url must use an official Outlook HTTPS host");
       }
     }
 

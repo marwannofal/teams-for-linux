@@ -28,6 +28,16 @@
 const defaults = require("./defaults");
 
 module.exports = {
+      outlook: {
+        default: { enabled: false, url: "https://outlook.office.com/mail/" },
+        describe: "Optional Outlook web tab alongside Teams, sharing the primary Teams browser session.",
+        type: "object",
+        fields: {
+          enabled: { type: "boolean", describe: "Show the Teams / Outlook tab switcher. Outlook loads on first selection." },
+          url: { type: "string", describe: "Official Outlook HTTPS URL. Use https://outlook.office.com/mail/ for work or school, or https://outlook.live.com/mail/0/ for personal accounts." },
+        },
+        applyMode: "restart",
+      },
       dbusControl: {
         default: { enabled: false, busName: "" },
         describe: "Opt-in Linux user session D-Bus control and observed Teams state. Requires restart.",

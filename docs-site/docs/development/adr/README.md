@@ -58,6 +58,7 @@ Architecture Decision Records capture important architectural decisions along wi
 | [034](034-native-wayland-default.md) | Native Wayland by Default on deb, rpm and integrated AppImage | ✅ Accepted | 2026-10-22 | pending release |
 | [035](035-renderer-trust-boundary.md) | Renderer Trust Boundary with Context Isolation Disabled | ✅ Implemented | 2026-11-07 | v2.24.0, v2.30.0 |
 | [036](036-agents-md-adoption.md) | Adopt AGENTS.md as the Agent Instruction File | ✅ Accepted | 2026-11-07 | N/A |
+| [037](037-outlook-workspace-tab.md) | Optional Outlook Workspace Tab | 🚧 Local implementation | 2026-11-18 | Not released |
 
 **Legend:**
 - ✅ **Implemented** - Decision accepted and code in production

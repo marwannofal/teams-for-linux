@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Teams + Outlook Workspace
+Comment=Marwan's independent Teams for Linux fork with Outlook tabs
+Exec=teams-outlook %U
+Icon=io.github.marwannofal.teams_outlook
+Terminal=false
+Categories=Network;Office;Chat;Email;
+StartupWMClass=io.github.marwannofal.teams_outlook
+MimeType=x-scheme-handler/msteams;x-scheme-handler/web+msteams;

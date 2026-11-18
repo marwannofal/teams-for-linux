@@ -1,8 +1,32 @@
 {
   "$generatedBy": "scripts/generateConfigDocs.js",
   "source": "app/config/options.js",
-  "optionCount": 85,
+  "optionCount": 86,
   "options": [
+    {
+      "name": "outlook",
+      "type": "object",
+      "default": {
+        "enabled": false,
+        "url": "https://outlook.office.com/mail/"
+      },
+      "description": "Optional Outlook web tab alongside Teams, sharing the primary Teams browser session.",
+      "applyMode": "restart",
+      "fields": [
+        {
+          "path": "enabled",
+          "type": "boolean",
+          "default": false,
+          "description": "Show the Teams / Outlook tab switcher. Outlook loads on first selection."
+        },
+        {
+          "path": "url",
+          "type": "string",
+          "default": "https://outlook.office.com/mail/",
+          "description": "Official Outlook HTTPS URL. Use https://outlook.office.com/mail/ for work or school, or https://outlook.live.com/mail/0/ for personal accounts."
+        }
+      ]
+    },
     {
       "name": "dbusControl",
       "type": "object",

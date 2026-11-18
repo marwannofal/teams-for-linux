@@ -1,0 +1,126 @@
+{
+  "app-id": "io.github.marwannofal.teams_outlook",
+  "base": "org.electronjs.Electron2.BaseApp",
+  "base-version": "25.08",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "25.08",
+  "sdk": "org.freedesktop.Sdk",
+  "command": "teams-outlook",
+  "separate-locales": false,
+  "finish-args": [
+    "--share=ipc",
+    "--socket=wayland",
+    "--socket=fallback-x11",
+    "--socket=pulseaudio",
+    "--share=network",
+    "--device=all",
+    "--filesystem=home",
+    "--filesystem=xdg-run/pipewire-0",
+    "--talk-name=org.kde.StatusNotifierWatcher",
+    "--talk-name=org.freedesktop.Notifications",
+    "--talk-name=org.freedesktop.PowerManagement",
+    "--talk-name=org.freedesktop.ScreenSaver",
+    "--talk-name=org.gtk.Notifications",
+    "--talk-name=org.gnome.SessionManager",
+    "--talk-name=com.canonical.Unity",
+    "--system-talk-name=org.freedesktop.login1",
+    "--env=XDG_CURRENT_DESKTOP=Unity",
+    "--env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons"
+  ],
+  "modules": [
+    {
+      "name": "libcbor",
+      "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DBUILD_SHARED_LIBS=ON"
+      ],
+      "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/lib/cmake",
+        "/lib/*.a"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/PJK/libcbor.git",
+          "tag": "v0.15.0",
+          "commit": "cf5bd4bd293ce730b9455fa9cd822166c3dc4599",
+          "x-checker-data": {
+            "type": "git",
+            "tag-pattern": "^v([\\d.]+)$"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libfido2",
+      "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DBUILD_TOOLS=ON",
+        "-DBUILD_TESTS=OFF",
+        "-DBUILD_EXAMPLES=OFF",
+        "-DBUILD_MANPAGES=OFF",
+        "-DBUILD_STATIC_LIBS=OFF"
+      ],
+      "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/lib/cmake"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/Yubico/libfido2.git",
+          "tag": "1.17.0",
+          "commit": "b974e7cf2ee7392134cc12c08b76a068cf250dd8",
+          "x-checker-data": {
+            "type": "git",
+            "tag-pattern": "^([\\d.]+)$"
+          }
+        }
+      ]
+    },
+    {
+      "name": "teams-outlook",
+      "buildsystem": "simple",
+      "sources": [
+        {
+          "type": "dir",
+          "path": "../../dist/linux-unpacked",
+          "dest": "application"
+        },
+        {
+          "type": "file",
+          "path": "teams-outlook.sh"
+        },
+        {
+          "type": "file",
+          "path": "io.github.marwannofal.teams_outlook.desktop"
+        },
+        {
+          "type": "file",
+          "path": "io.github.marwannofal.teams_outlook.metainfo.xml"
+        },
+        {
+          "type": "file",
+          "path": "io.github.marwannofal.teams_outlook.svg"
+        },
+        {
+          "type": "file",
+          "path": "../../LICENSE.md"
+        }
+      ],
+      "build-commands": [
+        "mkdir -p /app/teams-outlook",
+        "cp -a application/. /app/teams-outlook/",
+        "install -Dm755 teams-outlook.sh /app/bin/teams-outlook",
+        "install -Dm644 io.github.marwannofal.teams_outlook.desktop /app/share/applications/io.github.marwannofal.teams_outlook.desktop",
+        "install -Dm644 io.github.marwannofal.teams_outlook.metainfo.xml /app/share/metainfo/io.github.marwannofal.teams_outlook.metainfo.xml",
+        "install -Dm644 io.github.marwannofal.teams_outlook.svg /app/share/icons/hicolor/scalable/apps/io.github.marwannofal.teams_outlook.svg",
+        "install -Dm644 LICENSE.md /app/share/licenses/io.github.marwannofal.teams_outlook/LICENSE.md",
+        "patch-electron-desktop-filename /app/teams-outlook/resources/app.asar"
+      ]
+    }
+  ]
+}

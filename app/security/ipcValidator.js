@@ -16,6 +16,9 @@ const allowedChannels = new Set([
   'get-config',
   'get-system-idle-state',
   'get-app-version',
+  // Local Teams / Outlook tab switcher; pinned to its exact webContents too.
+  'workspace-tab-action',
+  'workspace-tab-state',
   
   // Zoom and display controls
   'get-zoom-level',
@@ -255,6 +258,7 @@ function validateIpcChannel(channel, payload = null) {
 // with the preload on every start and is trusted for device permissions, and
 // the Graph channels send messages as the user (GHSA-58j7-22f8-6xqp).
 const appPageOnlyChannels = new Set([
+  'workspace-tab-action',
   'close-view',
   'desktop-capturer-get-sources',
   'get-screen-sharing-displays',

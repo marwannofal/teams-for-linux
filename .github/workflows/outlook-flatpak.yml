@@ -1,0 +1,38 @@
+name: Personal Outlook Flatpak
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['outlook-v*']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.repository == 'marwannofal/teams-for-linux'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint && npm run test:unit
+      - name: Install Flatpak tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak dbus-bin
+          flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          flatpak install --user --noninteractive flathub org.flatpak.Builder org.freedesktop.Sdk//25.08 org.electronjs.Electron2.BaseApp//25.08
+      - name: Build bundle
+        run: dbus-run-session -- npm run dist:outlook:flatpak
+      - uses: actions/upload-artifact@v4
+        with:
+          name: teams-outlook-flatpak-x86_64
+          path: |
+            dist/*.flatpak
+            dist/*.flatpak.sha256
+          if-no-files-found: error

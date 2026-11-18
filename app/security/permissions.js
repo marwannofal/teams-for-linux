@@ -1,6 +1,7 @@
 const path = require("node:path");
 const { fileURLToPath } = require("node:url");
 const { isTeamsHost } = require("../helpers/teamsHosts");
+const { isOutlookUrl } = require("../outlook/urls");
 
 const APP_ROOT = path.join(__dirname, "..");
 
@@ -144,6 +145,11 @@ function installPermissionHandlers(config, app, defaultSession, getProfileUrls =
   const loggedDenials = new Set();
 
   const decide = (webContents, permission, details, requestingUrl) => {
+    // Outlook shares the Teams partition. Grant limited additional permissions
+    // only to official mail pages, never to a configured URL alone.
+    const outlookAllowed = config.outlook?.enabled && isOutlookUrl(requestingUrl) &&
+      isOutlookUrl(topLevelUrlOf(webContents)) &&
+      ["notifications", "clipboard-read", "clipboard-sanitized-write", "fullscreen"].includes(permission);
     const allowed = isPermissionAllowed(
       {
         permission,
@@ -153,7 +159,7 @@ function installPermissionHandlers(config, app, defaultSession, getProfileUrls =
         externalURL: details?.externalURL,
       },
       trustedOrigins(),
-    );
+    ) || Boolean(outlookAllowed);
     const key = `${permission}|${originOf(requestingUrl) ?? "unknown"}`;
     if (!allowed && loggedDenials.size < MAX_LOGGED_DENIALS && !loggedDenials.has(key)) {
       loggedDenials.add(key);

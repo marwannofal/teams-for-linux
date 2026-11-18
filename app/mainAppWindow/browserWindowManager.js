@@ -24,6 +24,8 @@ const {
 
 const MIN_WINDOW_WIDTH = 400;
 const MIN_WINDOW_HEIGHT = 300;
+const { createWorkspaceWindow } = require("../outlook/window");
+const { hasOutlookHeader, HEADER_HEIGHT } = require("../outlook/layout");
 
 class BrowserWindowManager {
   // Last overlay report from each renderer, by webContents id. With several
@@ -99,7 +101,7 @@ class BrowserWindowManager {
   }
 
   createNewBrowserWindow(windowState) {
-    return new BrowserWindow({
+    const options = {
       title: "Teams for Linux",
       x: windowState.x,
       y: windowState.y,
@@ -130,7 +132,10 @@ class BrowserWindowManager {
         nodeIntegration: false,   // Secure: preload scripts don't need this
         sandbox: false,           // Required for system API access
       },
-    });
+    };
+    return hasOutlookHeader(this.config)
+      ? createWorkspaceWindow(options, this.config)
+      : new BrowserWindow(options);
   }
 
   assignEventHandlers() {
@@ -211,6 +216,10 @@ class BrowserWindowManager {
       return;
     }
     try {
+      if (hasOutlookHeader(this.config)) {
+        const dark = nativeTheme.shouldUseDarkColors;
+        update = { height: HEADER_HEIGHT, color: dark ? "#20202700" : "#f4f5f900", symbolColor: dark ? "#ffffff" : "#242424" };
+      }
       this.window.setTitleBarOverlay(update);
     } catch (err) {
       console.warn("[TITLE_BAR] Could not update the window controls", { error: err.message });

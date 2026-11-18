@@ -26,6 +26,8 @@ const { DeferredDeepLink } = require("./deferredDeepLink");
 const { resolveLaunchUrl } = require("./protocolLink");
 const os = require("node:os");
 const path = require("node:path");
+let outlookTabs = null;
+exports.setOutlookTabs = (tabs) => { outlookTabs = tabs; };
 const { installProfileWindowOpenHandler } = require("./profileWindowOpenPolicy");
 const { reloadIfSignedOut } = require("./signOutReload");
 const { keepMsalEncryptionCookiePersistent } = require("./msalCookiePersistence");
@@ -926,6 +928,7 @@ exports.onAppSecondInstance = function onAppSecondInstance(event, args) {
  * @param {string} url - Deep link URL resolved from the launch argument
  */
 async function openDeepLink(url) {
+  outlookTabs?.select("teams");
   // The newest link wins, whichever way it ends up opening: one held from
   // earlier must not open over it, and the full navigation below can outlast
   // the release delay before `did-navigate` would get to cancel it.
@@ -1097,6 +1100,7 @@ function onDidFrameFinishLoad(
 }
 
 function restoreWindow() {
+  outlookTabs?.select("teams");
   if (window.isMinimized()) {
     window.restore();
   } else if (!window.isVisible()) {

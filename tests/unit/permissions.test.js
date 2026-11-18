@@ -161,4 +161,24 @@ describe('installPermissionHandlers', () => {
 		});
 		assert.strictEqual(granted, true);
 	});
+
+	it('allows limited Outlook permissions only when enabled and on an official mail page', () => {
+		const s = fakeSession();
+		installPermissionHandlers({ url: 'https://teams.cloud.microsoft', outlook: { enabled: true } }, { on() {} }, s);
+		const mail = page('https://outlook.office.com/mail/');
+		for (const permission of ['notifications', 'clipboard-read', 'clipboard-sanitized-write', 'fullscreen']) {
+			assert.strictEqual(s.check(mail, permission, 'https://outlook.office.com', { isMainFrame: true }), true);
+		}
+		for (const permission of ['media', 'display-capture', 'fileSystem', 'usb', 'geolocation']) {
+			assert.strictEqual(s.check(mail, permission, 'https://outlook.office.com', { isMainFrame: true }), false);
+		}
+		assert.strictEqual(s.check(page('https://evil.example'), 'notifications', 'https://outlook.office.com', { isMainFrame: false }), false);
+		assert.strictEqual(s.check(mail, 'notifications', 'https://outlook.office.com.evil.example', { isMainFrame: false }), false);
+	});
+
+	it('does not grant Outlook permissions while the feature is disabled', () => {
+		const s = fakeSession();
+		installPermissionHandlers({ url: 'https://teams.cloud.microsoft', outlook: { enabled: false } }, { on() {} }, s);
+		assert.strictEqual(s.check(page('https://outlook.office.com/mail/'), 'notifications', 'https://outlook.office.com', { isMainFrame: true }), false);
+	});
 });

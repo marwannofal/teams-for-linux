@@ -4,6 +4,7 @@ const SenderProfileMap = require("./senderProfileMap");
 const { reloadIfSignedOut } = require("./signOutReload");
 const { isHttpsUrl } = require("../profilesManager");
 const { keepMsalEncryptionCookiePersistent } = require("./msalCookiePersistence");
+const { workspaceBounds } = require("../outlook/layout");
 
 const LEGACY_PARTITION = "persist:teams-4-linux";
 
@@ -827,10 +828,9 @@ class ProfileViewManager {
   }
 
   #applyBounds(view) {
-    // Profile views fill the whole content area — the switcher is a small
-    // bottom-left pill overlay, so nothing is inset.
-    const [width, height] = this.#window.getContentSize();
-    view.setBounds({ x: 0, y: 0, width, height });
+    // Reserve the workspace header when Outlook is enabled; otherwise fill
+    // the window as before. The profile pill remains at the bottom-left.
+    view.setBounds(workspaceBounds(this.#window, this.#config));
   }
 
   // --- Switcher pill ---------------------------------------------------
@@ -873,7 +873,7 @@ class ProfileViewManager {
     // Dropdown open: cover the whole content area (full-app scrim +
     // click-anywhere dismiss; the upward dropdown is not clipped).
     if (this.#chromeExpanded) {
-      this.#chromeView.setBounds({ x: 0, y: 0, width, height });
+      this.#chromeView.setBounds(workspaceBounds(this.#window, this.#config));
       return;
     }
     // At rest: a small square flush to the window's bottom-left corner. The

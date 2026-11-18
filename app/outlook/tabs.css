@@ -1,0 +1,15 @@
+:root { color-scheme: light dark; font: 13px system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: light-dark(#f4f5f9, #202027); }
+nav { display: flex; align-items: center; gap: 12px; height: 52px; padding: 7px 16px; border-bottom: 1px solid light-dark(#d5d7e0, #454550); -webkit-app-region: drag; }
+.brand { font-weight: 600; margin-right: 8px; color: light-dark(#464965, #d8daf0); }
+[role="tablist"] { display: flex; gap: 4px; }
+button { border: 0; border-radius: 7px; padding: 9px 16px; color: inherit; background: transparent; cursor: pointer; font: inherit; -webkit-app-region: no-drag; }
+button:hover { background: light-dark(#e1e4ef, #383844); }
+button[aria-selected="true"] { color: #fff; background: #5254b8; }
+button:focus-visible { outline: 2px solid light-dark(#252779, #c2c4ff); outline-offset: 1px; }
+#status { font-size: 11px; margin-left: auto; }
+#reload { padding: 7px; font-size: 19px; }
+[hidden] { display: none; }
+body[data-integrated="true"] nav { padding-right: 148px; }
+@media (max-width: 550px) { .brand { display: none; } nav { gap: 6px; padding-left: 8px; } button { padding-inline: 12px; } }

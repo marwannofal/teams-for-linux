@@ -96,6 +96,29 @@ Each option's **Apply** mode (whether a change takes effect immediately or after
 
 ## Configuration Options Reference
 
+### Outlook tab
+
+Enable an Outlook web tab in the same window with `outlook.enabled: true`.
+The Teams / Outlook navbar appears in the header, above both apps. Switching tabs keeps
+Teams running; Outlook loads on first selection and shares the primary Teams
+browser session. With multiple Teams profiles, Outlook remains on that primary
+session rather than following profile changes. Restart after changing these options.
+
+```json
+{
+  "outlook": {
+    "enabled": true,
+    "url": "https://outlook.office.com/mail/"
+  }
+}
+```
+
+For personal Outlook accounts set `outlook.url` to
+`https://outlook.live.com/mail/0/`. Only official Outlook HTTPS hosts are accepted:
+`outlook.office.com`, `outlook.office365.com`, `outlook.cloud.microsoft` and
+`outlook.live.com`. The feature is disabled by default. Sign-in and MFA still
+follow Microsoft's and your organization's policies.
+
 ### Renamed options
 
 Options are moving from flat top-level names to nested namespaces, following the

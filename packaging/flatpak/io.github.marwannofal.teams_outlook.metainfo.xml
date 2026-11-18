@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.marwannofal.teams_outlook</id>
+  <name>Teams + Outlook Workspace</name>
+  <summary>Use Teams and Outlook in one window with header tabs</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.marwannofal"><name>Marwan Nofal</name></developer>
+  <description>
+    <p>An independent fork of Teams for Linux by Ismael Martinez and contributors, maintained by Marwan Nofal. Teams and Outlook stay open in one window with a navigation bar at the top.</p>
+    <p>This unofficial client uses Microsoft's web applications. A Microsoft account and internet connection are required. This project is not affiliated with Microsoft.</p>
+  </description>
+  <launchable type="desktop-id">io.github.marwannofal.teams_outlook.desktop</launchable>
+  <url type="homepage">https://github.com/marwannofal/teams-for-linux</url>
+  <url type="bugtracker">https://github.com/marwannofal/teams-for-linux/issues</url>
+  <url type="vcs-browser">https://github.com/marwannofal/teams-for-linux</url>
+  <provides><binary>teams-outlook</binary></provides>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="2.32.1-outlook.1" date="2026-11-18"/></releases>
+</component>

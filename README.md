@@ -1,5 +1,12 @@
 # Teams for Linux
 
+> [!NOTE]
+> **Marwan's Teams + Outlook Workspace fork:** this branch adds an Outlook tab
+> and a header navigation bar. Download the separate Flatpak from
+> [personal releases](https://github.com/marwannofal/teams-for-linux/releases),
+> or follow the [installation and build guide](packaging/flatpak/README.md).
+> The upstream project and its documentation continue below.
+
 [![Matrix Space](https://img.shields.io/matrix/teams-for-linux-space%3Amatrix.org?server_fqdn=matrix.org&label=Matrix%20Space)](https://matrix.to/#/#teams-for-linux-space:matrix.org "Matrix Space")
 ![](https://img.shields.io/github/release/IsmaelMartinez/teams-for-linux.svg?style=flat)
 ![](https://img.shields.io/github/downloads/IsmaelMartinez/teams-for-linux/total.svg?style=flat)

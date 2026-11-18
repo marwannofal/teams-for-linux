@@ -1,6 +1,8 @@
 # Main App Window
 
-Manages the primary BrowserWindow that hosts the Teams web interface.
+Manages the primary window that hosts the Teams web interface. Normally this
+is a BrowserWindow; with Outlook enabled it is a BaseWindow with separate Teams,
+Outlook and header-navbar views, reserving space above both apps.
 
 ## Components
 
@@ -19,6 +21,10 @@ Manages the primary BrowserWindow that hosts the Teams web interface.
 - Deep link handling for `msteams:` and `web+msteams:` protocol links and HTTPS Teams links.
   Teams' launcher page picks between the two schemes server side, so the app registers both
   and `resolveLaunchUrl` (behind `processArgs`) drops the `web+` prefix before matching.
+
+- Optional [Outlook tab](../outlook/README.md): a separate sandboxed mail view
+  shares the primary Teams session. Opening a Teams deep link or restoring Teams
+  from a notification selects the Teams tab.
 
 ## Deep Link Routing
 

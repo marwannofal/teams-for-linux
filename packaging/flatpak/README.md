@@ -104,6 +104,8 @@ draft preservation, header layout and resizing, retry after failed navigation,
 authentication popups, IPC sender validation, keyboard navigation, and profile
 coexistence. See [the feature test report](../../app/outlook/TEST-RESULTS.md)
 for the current suite results and existing baseline failure.
+The [Flatpak verification report](VERIFICATION.md) records checks against the
+installed personal bundle and its checksum.
 
 After building, install the bundle and check that both tabs reach Microsoft
 sign-in, switch without losing their page, survive resizing, and reopen after
